@@ -42,7 +42,7 @@ class App extends React.Component {
     event.preventDefault();
     const newTask = {
       task: this.state.task,
-      id: Date(),
+      id: Date.now(),
       completed: false
     } 
     this.setState({
@@ -50,6 +50,17 @@ class App extends React.Component {
       task: ''
     })
   } 
+
+  toggleTask = () => {
+    this.setState({
+      task: this.state.task.strike(),
+      completed: true
+    })
+  }
+
+  removeTask = () => {
+  
+  }
 
   render() {
     return (
@@ -59,7 +70,9 @@ class App extends React.Component {
           changeHandler={this.inputTask} 
           submitHandler={this.addTask} 
           value={this.state.task} />
-        <TodoList list={this.state.list} />
+        <TodoList 
+          list={this.state.list} 
+          toggleHandler={this.toggleTask}/>
       </div>
     );
   }

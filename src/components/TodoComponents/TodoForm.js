@@ -4,8 +4,8 @@ const TodoForm = (props) => {
   return (
     <form className='todo-form' onSubmit={props.submitHandler}>
       <input placeholder='Add task...' onChange={props.changeHandler} value={props.value} required/>
-      <button>Add Todo</button>
-      <button>Clear Completed</button>
+      <button type='submit'>Add Todo</button>
+      <button type='submit'>Clear Completed</button>
     </form>
   )
 }
