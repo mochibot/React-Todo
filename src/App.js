@@ -1,6 +1,8 @@
 import React from 'react';
 import TodoList from './components/TodoComponents/TodoList'
 import TodoForm from './components/TodoComponents/TodoForm'
+import './components/TodoComponents/Todo.scss'
+
 
 const tasks = [
   {
@@ -51,9 +53,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>My Todo App!</h2>
-        <TodoForm changeHandler={this.inputTask} submitHandler={this.addTask} value={this.state.task}/>
+      <div className='todo-App'>
+        <h2>My Todo App</h2>
+        <TodoForm 
+          changeHandler={this.inputTask} 
+          submitHandler={this.addTask} 
+          value={this.state.task} />
         <TodoList list={this.state.list} />
       </div>
     );
