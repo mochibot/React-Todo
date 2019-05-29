@@ -30,14 +30,31 @@ class App extends React.Component {
     }
   }
 
+  inputTask = (event) => {
+    this.setState({
+      task: event.target.value
+    })
+  }
 
-  
+  addTask = (event) => {
+    event.preventDefault();
+    const newTask = {
+      task: this.state.task,
+      id: Date(),
+      completed: false
+    } 
+    this.setState({
+      list: [...this.state.list, newTask],
+      task: ''
+    })
+  } 
+
   render() {
     return (
       <div>
-        <h2>Welcome to your Todo App!</h2>
+        <h2>My Todo App!</h2>
+        <TodoForm changeHandler={this.inputTask} submitHandler={this.addTask} value={this.state.task}/>
         <TodoList list={this.state.list} />
-        <TodoForm />
       </div>
     );
   }
