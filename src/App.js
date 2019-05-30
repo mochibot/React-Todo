@@ -6,15 +6,17 @@ import './components/TodoComponents/Todo.scss'
 
 const tasks = [
   {
-    task: 'Organize Garage',
+    task: 'Add a new task',
     id: 1528817077286,
     completed: false
   },
+  /*
   {
     task: 'Bake Cookies',
     id: 1528817084358,
     completed: false
   }
+  */
 ]
 
 
@@ -38,6 +40,7 @@ class App extends React.Component {
     })
   }
 
+  
   addTask = (event) => {
     event.preventDefault();
     const newTask = {
@@ -51,15 +54,27 @@ class App extends React.Component {
     })
   } 
 
-  toggleTask = () => {
+
+  toggleTask = (props) => {
     this.setState({
-      task: this.state.task.strike(),
-      completed: true
+      list: [...this.state.list].map(item => {
+        /* compare id instead of task as id is unique or else will run into the problem of selecting all of the same tasks */
+        if (item.id === props.id) {
+          item.completed = !item.completed;
+          return item;
+        } else {
+          return item;
+        }
+      })
     })
   }
 
-  removeTask = () => {
-  
+
+  removeTask = (event) => {
+    event.preventDefault();
+    this.setState({
+      list: [...this.state.list].filter(item => item.completed === false)
+    })
   }
 
   render() {
@@ -69,6 +84,7 @@ class App extends React.Component {
         <TodoForm 
           changeHandler={this.inputTask} 
           submitHandler={this.addTask} 
+          clearHandler={this.removeTask}
           value={this.state.task} />
         <TodoList 
           list={this.state.list} 
