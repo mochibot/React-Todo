@@ -3,7 +3,6 @@ import TodoList from './components/TodoComponents/TodoList'
 import TodoForm from './components/TodoComponents/TodoForm'
 import './components/TodoComponents/Todo.scss'
 
-
 const tasks = [
   {
     task: 'Add a new task',
@@ -17,8 +16,7 @@ const tasks = [
     completed: false
   }
   */
-]
-
+];
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -28,52 +26,98 @@ class App extends React.Component {
     super();
     this.state = {
       list: tasks,
-      task: '',
-      id: '',
-      completed: '',
+      input: '', 
+      //added displayList key to enable search functionality (keeping track of what is being displayed...)
+      displayList: tasks
     }
   }
 
+  /* Playing around with localStorage */
+
+  componentDidMount() {
+    if (localStorage.getItem('list') === '[]') {
+      //reset list to initial tasks obj if list is empty
+      this.setState({
+        list: tasks,
+        displayList: tasks,
+      })
+    } else {
+      this.setState({
+        list: JSON.parse(localStorage.getItem('list')),
+        displayList: JSON.parse(localStorage.getItem('list'))
+      })
+    }
+    window.addEventListener("beforeunload", this.saveStateToLocalStorage);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.saveStateToLocalStorage);
+  }
+
+  saveStateToLocalStorage = () => {
+    // for every item in React state
+    for (let key in this.state) {
+      // save to localStorage
+      localStorage.setItem(key, JSON.stringify(this.state[key]));
+    }
+  }
+
+  /*--------end of code for playing with localStorage*/
+  
   inputTask = (event) => {
     this.setState({
-      task: event.target.value
+      input: event.target.value
     })
   }
 
-  
   addTask = (event) => {
     event.preventDefault();
     const newTask = {
-      task: this.state.task,
+      task: this.state.input,
       id: Date.now(),
       completed: false
     } 
+    
     this.setState({
       list: [...this.state.list, newTask],
-      task: ''
+      displayList: [...this.state.list, newTask],
+      input: ''
     })
   } 
 
-
   toggleTask = (props) => {
-    this.setState({
-      list: [...this.state.list].map(item => {
+    this.setState(prevState => {
+      return {
+        list: prevState.list.map(item => {
         /* compare id instead of task as id is unique or else will run into the problem of selecting all of the same tasks */
-        if (item.id === props.id) {
-          item.completed = !item.completed;
-          return item;
-        } else {
-          return item;
-        }
-      })
-    })
+          if (item.id === props.id) {
+            item.completed = !item.completed;
+            return item;
+          } else {
+            return item;
+          }
+        }),
+        displayList: this.state.list
+      };
+    });
   }
-
 
   removeTask = (event) => {
     event.preventDefault();
-    this.setState({
-      list: [...this.state.list].filter(item => item.completed === false)
+    this.setState(prevState => {
+      return {
+        list: prevState.list.filter(item => item.completed === false),
+        displayList: prevState.displayList.filter(item => item.completed === false),
+      }
+    });
+  }
+
+  searchTask = (event) => {
+    let searchInput = event.target.value;
+    this.setState(prevState => {
+      return {
+        displayList: prevState.list.filter(item => item.task.toLowerCase().includes(searchInput.toLowerCase()))
+      }
     })
   }
 
@@ -85,9 +129,11 @@ class App extends React.Component {
           changeHandler={this.inputTask} 
           submitHandler={this.addTask} 
           clearHandler={this.removeTask}
-          value={this.state.task} />
+          searchHandler={this.searchTask}
+          value={this.state.input}
+          search={this.state.search} />
         <TodoList 
-          list={this.state.list} 
+          list={this.state.displayList} 
           toggleHandler={this.toggleTask}/>
       </div>
     );

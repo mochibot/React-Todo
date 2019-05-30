@@ -9,6 +9,7 @@ const TodoForm = (props) => {
           <button>Add Task</button>
           <button onClick={props.clearHandler}>Clear Completed</button>
         </div>
+        <input placeholder='Search tasks' onChange={props.searchHandler} search={props.value} />
       </form>
       
     </div>
