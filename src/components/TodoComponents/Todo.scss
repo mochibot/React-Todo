@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
+
+*, *::before, *::after{
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  background: url("https://i.ibb.co/RHZCJ3T/tim-navis-78745-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-size: cover;
+  font-family: 'Kalam', cursive;
+}
+
+.todo-App {
+  margin: 0;
+  padding: 0;
+  width: 500px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  padding: 2%;
+  font-size: 22px;
+  color: white;
+
+  h2 {
+    text-align: center;
+  }
+
+  .todo-list {
+    border-top: 2px dashed gray;
+    display: flex;
+    flex-direction: column;
+    margin: 0 3%;
+    padding: 3% 0;
+  }
+
+  .todo-item {
+    width: 100%;
+    background: white;
+    color: rgb(58, 58, 58);
+    border-radius: 5px;
+    padding: 2%;
+    margin: 2% 0;
+    cursor: pointer;
+
+    &::before {
+      content: '☐';
+      font-size: 24px;
+      margin-right: 2%;
+    }
+  }
+
+  .true {
+    opacity: 0.6;
+    
+    &::before {
+      content: '☑';
+      font-size: 24px;
+      margin-right: 2%;
+    }
+  }  
+
+  
+}
+
+.todo-form {
+  margin: 2% 0;
+
+  input {
+    line-height: 28px;
+    font-size: 16px;
+    border: 2px solid rgb(58, 58, 58);
+    width: 100%;
+    margin: 3% 0;
+    padding: 0 1%;
+  }
+
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+
+  button {
+    display: block;
+    background: gray;
+    color: white;
+    outline: none;
+    border: none;
+    padding: 8px;
+    margin: 0 5%;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 35%;
+  
+    &:hover {
+      background: rgb(81, 78, 109);
+    }
+  }
+}
+
+
+  
